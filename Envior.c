@@ -39,8 +39,8 @@ void spc_sanitize_(int preservec, char **preserveenv){//this is now an obj
 }
 //		I do need to clarify with the if state it only kick in when i doesnt equal zero or when the user make an input
     for(i=0; (var = spc_restricted_environ[i]) !=0; i++){//this is the same as the last
-
-	if(!(value = getenv(var))) continue;
+//	if it is NOT(a var name Value that has getenv(from var)) cont
+	if(!(value = getenv(var))) continue;//cont is like a pass
 	new_size += strlen(var) + strlen(var) + 2;//this will include the '=' we gone find out
 	arr_size++;
 
@@ -49,3 +49,11 @@ void spc_sanitize_(int preservec, char **preserveenv){//this is now an obj
 }
 
 new_size += (arr_size * sizeof(char*));new size will now be the size of the array.
+if(!(new_environ = (char **)malloc(new_size))) abort();//this is a helluva statement
+/*This means if its is NOT(A value named new_environ with a string pointer and its allocated mem and pointer(from new size))
+Then abort I think
+Dont qoute me*/
+new_environ[arr_size - 1] = 0;
+
+
+
