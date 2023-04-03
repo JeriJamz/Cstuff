@@ -1,3 +1,7 @@
+/*
+
+***********************CAUTION COMPILE AT YO OWN RISK*************************
+*/
 //This sum else I got out the book. Im doin this to go over my C basics
 //But I think its suppsoed to set and enviorment
 #include <stdio.h>
@@ -46,7 +50,18 @@ void spc_sanitize_(int preservec, char **preserveenv){//this is now an obj
 
 }
 
+    if(preservec && preserveenv){
+
+	for(i=0; i< preservec && (var = preserveenv[i]) !=0; i++){
+
+	    if(!(value = getenv(var))) continue;
+	    new_size += strlen(var) + strlen(value) + 2;
+	    arr_size++
+
 }
+
+}
+
 
 new_size += (arr_size * sizeof(char*));new size will now be the size of the array.
 if(!(new_environ = (char **)malloc(new_size))) abort();//this is a helluva statement
@@ -54,6 +69,42 @@ if(!(new_environ = (char **)malloc(new_size))) abort();//this is a helluva state
 Then abort I think
 Dont qoute me*/
 new_environ[arr_size - 1] = 0;
+ptr = (char *)new_environ + (arr_size * sizeof(char *))//im bit explainin this one.It popped up a coupleof times
+for(i=0; (var = spc_restricted_environ[i])!=0 ; i++){
 
+	new_environ[arr_ptr++] = ptr;//this is now stored in ptr
+	len = strlen(var);//now var len is being read
+	memcpy(ptr, var, len);//this copy the memory of these variables
+	ptr += len + 1;
 
+}
 
+for(i=0; (var = spc_preserve_environ[i]) !=0; i+=){
+
+    if(!(value = getenv(var))) continue;
+    new_environ[arr_ptr++] = ptr;
+    len = strlen(var);
+    memcpy(ptr, var, len);
+    *(ptr + len + 1) = '='//whateva this ASCII code is
+    memcpy(ptr + len + 2, value, strlen(value) + 1)
+    ptr += len + strlen(value) + 2;
+
+}
+
+if(preservec && preserveenv){
+
+    for(i=0; i < preservec && (var = preserve[i]) !=0; i++){
+
+	if(!(value = getenv(var))) continue;
+	new_environ[arr_ptr++] = ptr;
+	len = strlen(var);
+	memcpy(ptr + len + 2, value, strlen(value) + 1);
+	*(ptr + len + 1) = '=';
+	memcpy(ptr + len + 2, value, strlen(value) + 1);
+	ptr += len + strlen(value) + 2;
+
+}
+
+}
+  environ = new_environ;
+}
